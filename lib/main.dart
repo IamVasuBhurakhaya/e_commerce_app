@@ -1,9 +1,11 @@
-import 'package:e_commerce_app/views/HomePage.dart';
+import 'package:e_commerce_app/views/cart_page.dart';
+import 'package:e_commerce_app/views/detail_page.dart';
+import 'package:e_commerce_app/views/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(
-    Myapp(),
+    const Myapp(),
   );
 }
 
@@ -11,10 +13,14 @@ class Myapp extends StatelessWidget {
   const Myapp({super.key});
 
   @override
-  Widget build(BuildContext Context) {
-    return const MaterialApp(
+  Widget build(BuildContext context) {
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      routes: {
+        '/': (context) => const HomePage(),
+        'detail_page': (context) => const DetailPage(),
+        'cart_page': (context) => const CartPage(),
+      },
     );
   }
 }
