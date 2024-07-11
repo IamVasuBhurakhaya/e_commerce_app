@@ -1,8 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce_app/utils/product_utils.dart';
+import 'package:e_commerce_app/views/components/category_tile.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,10 +20,11 @@ List image = [
 ];
 
 class _HomePageState extends State<HomePage> {
+  String Selected = "All";
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey.shade100,
@@ -102,150 +104,36 @@ class _HomePageState extends State<HomePage> {
                       height: 20,
                     ),
 
-                    //Category box---------------------------------
-
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: allCategory
-                            .map(
-                              (e) => const SizedBox(
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        right: 20,
-                                      ),
-                                    ),
-                                    CircleAvatar(
-                                      radius: 40,
-                                      child: Text("E-com"),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      ),
+                    DropdownButton(
+                      value: Selected,
+                      onChanged: (val) {
+                        setState(
+                          () {
+                            Selected = val.toString();
+                          },
+                        );
+                      },
+                      items: [
+                        const DropdownMenuItem(
+                          value: "All",
+                          child: Text("All Product"),
+                        ),
+                        ...allCategory.map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e),
+                            )),
+                      ],
                     ),
-
                     const SizedBox(
                       height: 20,
                     ),
-
-                    //All Product Text --------------------------------------------
-
-                    const Row(
-                      children: [
-                        Text(
-                          "All Product",
-                          style: TextStyle(
-                              fontSize: 26, fontWeight: FontWeight.w700),
-                        ),
-                      ],
+                    Text("All Products"),
+                    categoryTile(context: context, Selected: "All"),
+                    const SizedBox(
+                      height: 20,
                     ),
-
-                    //Product card --------------------------------------------
-
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: allProduct
-                            .map(
-                              (e) => GestureDetector(
-                                onTap: () {
-                                  // Route route = MaterialPageRoute(
-                                  //   builder: (context) =>
-                                  //       DetailPage(Product: e),
-                                  // );
-
-                                  Navigator.of(context)
-                                      .pushNamed('detail_page', arguments: e);
-                                },
-                                child: Container(
-                                  height: 250,
-                                  width: 170,
-                                  margin: const EdgeInsets.only(
-                                    right: 10,
-                                    bottom: 10,
-                                  ),
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.grey.shade200,
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        offset: Offset(5, 5),
-                                        blurRadius: 10,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: size.height * 0.15,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Image(
-                                            image: NetworkImage(
-                                              e['thumbnail'],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      SizedBox(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              e['title'],
-                                              style: const TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.bold),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            Text(
-                                              "\$ ${e['price']}",
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: RatingBar.builder(
-                                          allowHalfRating: true,
-                                          initialRating: e['rating'].toDouble(),
-                                          itemCount: 5,
-                                          itemSize: 22,
-                                          itemBuilder: (context, _) =>
-                                              const Icon(
-                                            Icons.star,
-                                            color: Colors.amber,
-                                          ),
-                                          onRatingUpdate: (rating) {},
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
+                    Text(Selected),
+                    categoryTile(context: context, Selected: Selected),
                   ],
                 ),
               ),

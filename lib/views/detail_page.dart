@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -184,6 +186,7 @@ class _DetailPageState extends State<DetailPage> {
                   "\$ ${double.parse((Product['price'] / (1 - Product['discountPercentage'] / 100)).toString()).of2}",
                   style: const TextStyle(
                     fontWeight: FontWeight.w700,
+                    decoration: TextDecoration.lineThrough,
                     fontSize: 16,
                   ),
                 ),
