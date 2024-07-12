@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce_app/utils/product_utils.dart';
 import 'package:e_commerce_app/views/components/category_tile.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,19 +11,20 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-List image = [
-  "https://www.shutterstock.com/image-vector/mobile-application-shopping-online-on-260nw-1379237159.jpg",
-  "https://cms.nvctrading.com/app/uploads/2017/12/online-shopping.jpg",
-  "https://miro.medium.com/v2/resize:fit:1018/1*iAu65xDmvpVdBJgps6EDEw.png",
-  "https://img.freepik.com/premium-photo/online-fashion-shopping-with-computer_23-2150400628.jpg",
-];
-
 class _HomePageState extends State<HomePage> {
   String Selected = "All";
+  RangeValues sliderValue = RangeValues(1, 5000);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    List image = [
+      "https://www.shutterstock.com/image-vector/mobile-application-shopping-online-on-260nw-1379237159.jpg",
+      "https://cms.nvctrading.com/app/uploads/2017/12/online-shopping.jpg",
+      "https://miro.medium.com/v2/resize:fit:1018/1*iAu65xDmvpVdBJgps6EDEw.png",
+      "https://img.freepik.com/premium-photo/online-fashion-shopping-with-computer_23-2150400628.jpg",
+    ];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey.shade100,
@@ -103,37 +103,92 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(
                       height: 20,
                     ),
-
-                    DropdownButton(
-                      value: Selected,
-                      onChanged: (val) {
-                        setState(
-                          () {
-                            Selected = val.toString();
-                          },
-                        );
-                      },
-                      items: [
-                        const DropdownMenuItem(
-                          value: "All",
-                          child: Text("All Product"),
+//DropDown--------------------------------------------------------------
+                    Row(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: DropdownButton(
+                            value: Selected,
+                            onChanged: (val) {
+                              setState(
+                                () {
+                                  Selected = val.toString();
+                                },
+                              );
+                            },
+                            items: [
+                              const DropdownMenuItem(
+                                value: "All",
+                                child: Text("All Product"),
+                              ),
+                              ...allCategory.map((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e),
+                                  )),
+                            ],
+                          ),
                         ),
-                        ...allCategory.map((e) => DropdownMenuItem(
-                              value: e,
-                              child: Text(e),
-                            )),
+                        SizedBox(
+                          width: size.width * 0.28,
+                        ),
+                        Visibility(
+                          visible: Selected != "All",
+                          child: ActionChip(
+                            onPressed: () {
+                              setState(() {
+                                Selected = "All";
+                              });
+                            },
+                            avatar: const Icon(Icons.clear),
+                            label: const Text("Clear"),
+                          ),
+                        ),
                       ],
                     ),
+
+                    Visibility(
+                        visible: Selected != "All",
+                        child: Row(
+                          children: [
+                            Text(
+                              "From\n${sliderValue.start.toInt()}",
+                              textAlign: TextAlign.center,
+                            ),
+                            Expanded(
+                              child: RangeSlider(
+                                  labels: RangeLabels(
+                                    sliderValue.start.toInt().toString(),
+                                    sliderValue.end.toInt().toString(),
+                                  ),
+                                  min: 1,
+                                  max: 5000,
+                                  values: sliderValue,
+                                  onChanged: (val) {
+                                    sliderValue = val;
+                                    setState(() {});
+                                  }),
+                            ),
+                            Text(
+                              "From\n${sliderValue.end.toInt()}",
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        )),
+
                     const SizedBox(
                       height: 20,
                     ),
-                    Text("All Products"),
-                    categoryTile(context: context, Selected: "All"),
-                    const SizedBox(
-                      height: 20,
+                    // Slider(value: 10, onChanged:(value) => ,),
+
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(Selected),
                     ),
-                    Text(Selected),
-                    categoryTile(context: context, Selected: Selected),
+                    categoryTile(
+                        context: context,
+                        Selected: Selected,
+                        sliderValue: sliderValue),
                   ],
                 ),
               ),

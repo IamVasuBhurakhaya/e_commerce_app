@@ -10865,3 +10865,5 @@ List<String> allCategory = allProduct
     )
     .toSet()
     .toList();
+
+List<Map<String, dynamic>> cartItem = [];

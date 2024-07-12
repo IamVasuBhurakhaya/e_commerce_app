@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:e_commerce_app/utils/product_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -58,7 +59,7 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ),
                     SizedBox(
-                      width: size.width * 0.012,
+                      width: size.width * 0.050,
                     ),
                     Text(
                       Product['brand'] ?? "Local",
@@ -199,7 +200,12 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          if (!cartItem.contains(Product)) {
+            cartItem.add(Product);
+            Product['qty'] = 1;
+          }
+        },
         child: const Icon(CupertinoIcons.cart_badge_plus),
       ),
     );

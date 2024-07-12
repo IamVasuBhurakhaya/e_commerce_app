@@ -2,36 +2,25 @@ import 'package:e_commerce_app/utils/product_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-Widget categoryTile({required BuildContext context, required String Selected}) {
+Widget categoryTile({
+  required BuildContext context,
+  required String Selected,
+  RangeValues sliderValue = const RangeValues(1, 5000),
+}) {
   return Column(
     children: [
-      //All Product Text --------------------------------------------
-
-      const Row(
-        children: [
-          Text(
-            "All Product",
-            style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
-          ),
-        ],
-      ),
-
-      //Product card --------------------------------------------
-
       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           children: allProduct
-              .where(
-                  (e) => Selected == 'All' ? true : Selected == e['category'])
+              .where((e) => Selected == 'All'
+                  ? true
+                  : Selected == e['category'] &&
+                      e['price'] >= sliderValue.start &&
+                      e['price'] <= sliderValue.end)
               .map(
                 (e) => GestureDetector(
                   onTap: () {
-                    // Route route = MaterialPageRoute(
-                    //   builder: (context) =>
-                    //       DetailPage(Product: e),
-                    // );
-
                     Navigator.of(context)
                         .pushNamed('detail_page', arguments: e);
                   },

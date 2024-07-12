@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/utils/product_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -28,9 +29,33 @@ class _CartPageState extends State<CartPage> {
           ),
         ],
       ),
-      body: const Column(
-        children: [],
-      ),
+      body: cartItem.isEmpty
+          ? Center()
+          : Column(
+              children: cartItem
+                  .map(
+                    (e) => Container(
+                      height: 200,
+                      child: Row(
+                        children: [
+                          Image(
+                            image: NetworkImage(
+                              e['thumbnail'],
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              cartItem.remove(e);
+                              setState(() {});
+                            },
+                            icon: Icon(Icons.remove),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
     );
   }
 }
