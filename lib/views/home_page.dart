@@ -36,7 +36,13 @@ class _HomePageState extends State<HomePage> {
             color: Colors.black38,
           ),
         ),
-        actions: const [
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.of(context).pushNamed('favorites_page');
+            },
+          ),
           Icon(Icons.search),
           SizedBox(
             width: 10,
@@ -48,19 +54,43 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       drawer: Drawer(
-        backgroundColor: Colors.grey.shade200,
-        child: const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: CircleAvatar(
-              radius: 50,
-              child: Image(
-                image: NetworkImage(
-                    "https://wallpapers.com/images/hd/professional-profile-pictures-1080-x-1080-460wjhrkbwdcp1ig.jpg"),
+        backgroundColor: Colors.white,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+              ),
+              child: const Center(
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(
+                      "https://wallpapers.com/images/hd/professional-profile-pictures-1080-x-1080-460wjhrkbwdcp1ig.jpg"),
+                ),
               ),
             ),
-          ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('Profile'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () {},
+            ),
+          ],
         ),
       ),
       body: Padding(
@@ -181,14 +211,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                     // Slider(value: 10, onChanged:(value) => ,),
 
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(Selected),
-                    ),
                     categoryTile(
-                        context: context,
-                        Selected: Selected,
-                        sliderValue: sliderValue),
+                      context: context,
+                      selected: Selected,
+                      sliderValue: sliderValue,
+                    ),
                   ],
                 ),
               ),

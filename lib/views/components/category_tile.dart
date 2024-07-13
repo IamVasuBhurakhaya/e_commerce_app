@@ -4,18 +4,30 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 Widget categoryTile({
   required BuildContext context,
-  required String Selected,
+  required String selected,
   RangeValues sliderValue = const RangeValues(1, 5000),
 }) {
   return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        child: Text(
+          selected,
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey.shade800,
+          ),
+        ),
+      ),
       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           children: allProduct
-              .where((e) => Selected == 'All'
+              .where((e) => selected == 'All'
                   ? true
-                  : Selected == e['category'] &&
+                  : selected == e['category'] &&
                       e['price'] >= sliderValue.start &&
                       e['price'] <= sliderValue.end)
               .map(
@@ -27,75 +39,95 @@ Widget categoryTile({
                   child: Container(
                     height: 250,
                     width: 170,
-                    margin: const EdgeInsets.only(
-                      right: 10,
-                      bottom: 10,
-                    ),
+                    margin: const EdgeInsets.only(right: 10, bottom: 10),
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey.shade200,
-                      boxShadow: const [
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.white,
+                      boxShadow: [
                         BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(5, 5),
-                          blurRadius: 10,
+                          color: Colors.grey.withOpacity(0.1),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3),
                         ),
                       ],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Stack(
                       children: [
-                        SizedBox(
-                          height: 120,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Image(
-                              image: NetworkImage(
-                                e['thumbnail'],
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 120,
+                              child: Center(
+                                child: Image(
+                                  image: NetworkImage(e['thumbnail']),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                e['title'],
-                                style: const TextStyle(
-                                    fontSize: 24, fontWeight: FontWeight.bold),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                            const SizedBox(height: 10),
+                            Text(
+                              e['title'],
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
                               ),
-                              Text(
-                                "\$ ${e['price']}",
-                                style: const TextStyle(
-                                  fontSize: 20,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              "\$${e['price']}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.green.shade700,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const Spacer(),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: RatingBar.builder(
+                                initialRating: e['rating'].toDouble(),
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemSize: 20,
+                                itemPadding:
+                                    const EdgeInsets.symmetric(horizontal: 1.0),
+                                itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
                                 ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                                onRatingUpdate: (rating) {},
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                         Align(
-                          alignment: Alignment.bottomRight,
-                          child: RatingBar.builder(
-                            allowHalfRating: true,
-                            initialRating: e['rating'].toDouble(),
-                            itemCount: 5,
-                            itemSize: 22,
-                            itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: Colors.amber,
+                          alignment: Alignment.topRight,
+                          child: IconButton(
+                            icon: Icon(
+                              favoriteItems.contains(e)
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: Colors.red.shade700,
                             ),
-                            onRatingUpdate: (rating) {},
+                            onPressed: () {
+                              if (favoriteItems.contains(e)) {
+                                favoriteItems.remove(e);
+                              } else {
+                                favoriteItems.add(e);
+                              }
+                              // (context as Element).reassemble();
+                            },
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

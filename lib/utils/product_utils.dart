@@ -10867,3 +10867,5 @@ List<String> allCategory = allProduct
     .toList();
 
 List<Map<String, dynamic>> cartItem = [];
+
+List<Map<String, dynamic>> favoriteItems = [];
