@@ -124,7 +124,6 @@ Widget categoryTile({
                               } else {
                                 favoriteItems.add(e);
                               }
-                              // (context as Element).reassemble();
                             },
                           ),
                         ),
