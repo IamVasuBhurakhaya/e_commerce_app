@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:e_commerce_app/utils/product_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -211,5 +209,3 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 }
-
-//

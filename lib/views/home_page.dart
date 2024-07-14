@@ -20,9 +20,9 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.sizeOf(context);
     List image = [
       "https://www.shutterstock.com/image-vector/mobile-application-shopping-online-on-260nw-1379237159.jpg",
-      "https://cms.nvctrading.com/app/uploads/2017/12/online-shopping.jpg",
+      // "https://cms.nvctrading.com/app/uploads/2017/12/online-shopping.jpg",
       "https://miro.medium.com/v2/resize:fit:1018/1*iAu65xDmvpVdBJgps6EDEw.png",
-      "https://img.freepik.com/premium-photo/online-fashion-shopping-with-computer_23-2150400628.jpg",
+      // "https://img.freepik.com/premium-photo/online-fashion-shopping-with-computer_23-2150400628.jpg",
     ];
 
     return Scaffold(
@@ -200,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                                   }),
                             ),
                             Text(
-                              "From\n${sliderValue.end.toInt()}",
+                              "To\n${sliderValue.end.toInt()}",
                               textAlign: TextAlign.center,
                             ),
                           ],

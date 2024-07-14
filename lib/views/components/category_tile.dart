@@ -116,7 +116,9 @@ Widget categoryTile({
                               favoriteItems.contains(e)
                                   ? Icons.favorite
                                   : Icons.favorite_border,
-                              color: Colors.red.shade700,
+                              color: favoriteItems.contains(e)
+                                  ? Colors.red.shade700
+                                  : Colors.grey,
                             ),
                             onPressed: () {
                               if (favoriteItems.contains(e)) {
