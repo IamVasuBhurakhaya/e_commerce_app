@@ -207,7 +207,6 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    // Slider(value: 10, onChanged:(value) => ,),
 
                     categoryTile(
                       context: context,
